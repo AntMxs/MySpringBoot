@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minant.mycache.mapper.DictValueMapper">
+    <select id="queryByCode" parameterType="com.minant.mycache.form.DictSearchForm"
+            resultType="com.minant.mycache.model.DictValueInfo">
+        select
+          t.dict_code as dictCode,
+          t.dict_real_value as realValue,
+          t.dict_show_value as showValue,
+          t.dict_value_order as dictOrder
+        from sm_dict_value_info t
+        <where>
+            <if test="dictCode != null and dictCode != ''">
+               t.dict_code = #{dictCode}
+            </if>
+        </where>
+        <if test="orderType != null and orderType != ''">
+            <choose>
+                <when test="orderType == 1">
+                    ORDER BY t.dict_value_order asc
+                </when>
+                <when test="orderType == 2">
+                    ORDER BY t.dict_value_order desc
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+</mapper>
